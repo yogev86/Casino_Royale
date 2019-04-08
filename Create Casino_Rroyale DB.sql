@@ -179,7 +179,7 @@ DROP TABLE IF EXISTS [dbo].[utbl_Countries]
 GO
 
 CREATE TABLE [dbo].[utbl_Countries](
-	[Country_ID]		[int]		   NOT NULL,
+	[Country_ID]		[int]		   NOT NULL identity,
 	[Country_Name]		[nvarchar](10) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -219,14 +219,10 @@ DROP TABLE IF EXISTS [dbo].[utbl_Deck_Of_Cards]
 GO
 
 CREATE TABLE [dbo].[utbl_Deck_Of_Cards](
-	[Card_ID]		 [int]				NOT NULL,
-	[Card_Symbol]	 [nvarchar](10)		NOT NULL,
-	[num]			 [int]				NOT NULL,
-	[Selected]		 [int]				NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[num] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	[Card_ID] [int] NOT NULL,
+	[Card_Symbol] [nvarchar](10) NOT NULL,
+	[num] [int]  NULL,
+	[Selected] [int] NULL default (0)
 ) ON [PRIMARY]
 GO
 
@@ -258,7 +254,7 @@ DROP TABLE IF EXISTS [dbo].[utbl_Genders]
 GO
 
 CREATE TABLE [dbo].[utbl_Genders](
-	[Gander_ID] [int] NOT NULL,
+	[Gander_ID] [int] NOT NULL identity,
 	[Gander_Type] [nvarchar](10) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -547,6 +543,77 @@ REFERENCES [dbo].[utbl_Players] ([Username])
 GO
 
 /***** End tables creation*****/
+
+
+--==============================================================================================================
+--==============================================================================================================
+
+
+/***** Input data into dictionary tables *****/
+
+USE Casino_Royale
+GO
+
+/***** Insert Countries into [utbl_Countries] table *****/
+
+insert into [dbo].[utbl_Countries] ([Country_Name])
+values ('Israel'),('England'),('France'),('Washington'),('Spain')
+
+
+/***** Insert cards number and cards symbols into [utbl_Deck_Of_Cards] table *****/
+
+insert into [dbo].[utbl_Deck_Of_Cards] ([Card_ID],[Card_Symbol])
+values (1,'clubs'),(1,'diamonds'),(1,'hearts'),(1,'spades'),
+	   (2,'clubs'),(2,'diamonds'),(2,'hearts'),(2,'spades'), 
+	   (3,'clubs'),(3,'diamonds'),(3,'hearts'),(3,'spades'), 
+	   (4,'clubs'),(4,'diamonds'),(4,'hearts'),(4,'spades'), 
+	   (5,'clubs'),(5,'diamonds'),(5,'hearts'),(5,'spades'), 
+	   (6,'clubs'),(6,'diamonds'),(6,'hearts'),(6,'spades'), 
+	   (7,'clubs'),(7,'diamonds'),(7,'hearts'),(7,'spades'), 
+	   (8,'clubs'),(8,'diamonds'),(8,'hearts'),(8,'spades'), 
+	   (9,'clubs'),(9,'diamonds'),(9,'hearts'),(9,'spades'), 
+	   (10,'clubs'),(10,'diamonds'),(10,'hearts'),(10,'spades'), 
+	   (11,'clubs'),(11,'diamonds'),(11,'hearts'),(11,'spades'), 
+	   (12,'clubs'),(12,'diamonds'),(12,'hearts'),(12,'spades'), 
+	   (13,'clubs'),(13,'diamonds'),(13,'hearts'),(13,'spades') 
+
+
+
+/***** Insert database definitions into [utbl_Definitions] table *****/
+
+insert into [dbo].[utbl_Definitions]
+values ('Failed login', 5),
+	   ('Password length', 5),
+	   ('Inactivity', 5),
+	   ('Welcome bonus', 10),
+	   ('Age limit', 19),
+	   ('Daily bonus', 50),
+	   ('Login sum', 100),
+	   ('Daily bet amount', 1000),
+	   ('Deposit amount', 1000)
+
+
+/***** Insert types of games into [utbl_Games] table *****/
+
+insert into [dbo].[utbl_Games]
+values (1, 'Slot Machine'),
+	   (2, 'blackjack')
+
+
+/***** Insert games managers into [utbl_Games_Managers] table *****/
+
+insert into [dbo].[utbl_Games_Managers]
+values ('Moshe', 1, 'Slot Machine'),
+	   ('Yaniv', 2, 'blackjack')
+
+
+	   s
+/***** Insert types of genders into [utbl_Genders] table *****/
+
+insert into [dbo].[utbl_Genders]
+values ('Man'),
+	   ('Woman'),
+	   ('Transgender')
 
 
 --==============================================================================================================
@@ -3720,9 +3787,9 @@ CREATE TABLE [dbo].[utbl_Log_documentation](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
---==============================================================================================================
---==============================================================================================================
 
+--==============================================================================================================
+--==============================================================================================================
 
 
 /****** Scripting replication configuration ******/
